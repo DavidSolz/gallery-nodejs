@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    h1.text-center.mb-4= title
+
+    .container(style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;")
+        .card(style='width: 200px; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);')
+            h2 #{users}
+            p(style='font-size: 0.9em; text-align: center;') Number of users
+        .card(style='width: 200px; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);')
+            h2 #{galleries}
+            p(style='font-size: 0.9em; text-align: center;') Number of galleries
+        .card(style='width: 200px; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);')
+            h2 #{images}
+            p(style='font-size: 0.9em; text-align: center;') Number of images

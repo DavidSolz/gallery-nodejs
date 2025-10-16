@@ -1,0 +1,24 @@
+extends layout
+block content
+
+    h1.text-center.mb-4= title
+
+    form(method='POST')
+        div.form-group
+            label(for='name') Name:
+            input#name.form-control(type='text', placeholder='min. 2 litery' name='name' required value=(undefined===gallery ? '' : gallery.name) )
+            label(for='description') Description:
+            input#descriptions.form-control(type='text', name='description' value=(undefined===gallery ? '' : gallery.description))
+            label(for='date') Date:
+            input#date.form-control(type='date', name='date' value=(undefined===gallery ? '' : gallery.date))
+            label(for='user') User:
+            select#user.form-control(name='user' required)
+                option(value='') --Select a user--
+                for user in users
+                    option(value=user._id) #{user.name} #{user.surname}
+        button.btn.btn-primary(type='submit') Submit
+    if messages && messages.length
+        .alert.alert-danger
+            ul
+                each msg in messages
+                    li= msg

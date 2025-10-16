@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1.text-center.mb-4= title
+
+  form(method='POST', action=`/comments/comment_edit/${comment._id}`)
+    .form-group
+      label(for='content') Content:
+      textarea#content.form-control(name='content', rows='4')= comment.content
+
+    button.btn.btn-primary(type='submit') Save Changes
+  if messages && messages.length
+    .alert.alert-danger
+      ul
+        each msg in messages
+          li= msg

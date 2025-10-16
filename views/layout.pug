@@ -1,0 +1,73 @@
+doctype html
+html(lang='pl-PL')
+  head
+    title=title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css", integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N", crossorigin="anonymous")
+
+  body
+    header(class="bg-info text-white text-center py-3")
+      h1.mb-0 Gallery App
+
+    nav(class="navbar navbar-expand-sm navbar-dark bg-dark")
+      .container-fluid
+        a.navbar-brand(href="/") Gallery App
+        button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarNav")
+          span.navbar-toggler-icon
+        .collapse.navbar-collapse#navbarNav
+          ul.navbar-nav.ml-auto
+            li.nav-item
+              a.nav-link(href="/") Home
+            li.nav-item
+              if loggedUser
+                a.nav-link(href='/users/user_login') Logged as #{loggedUser}
+              else
+                a.nav-link(href='/users/user_login') Login
+
+    .container-fluid.mt-3
+      .row
+        aside(class="col-md-3 col-lg-2 mb-3 bg-light p-3 rounded shadow-sm")
+          ul.nav.flex-column
+            li.nav-item
+              a.nav-link(class=page === 'home' ? 'active font-weight-bold bg-light text-primary rounded' : '', href="/") Home
+            li.nav-item
+              a.nav-link(class=page === 'stats' ? 'active font-weight-bold bg-light text-primary rounded' : '', href="/stats") Stats
+            li.nav-item
+              a.nav-link(class=page === 'users' ? 'active font-weight-bold bg-light text-primary rounded' : '', href="/users") Users
+            li.nav-item
+              a.nav-link(class=page === 'galleries' ? 'active font-weight-bold bg-light text-primary rounded' : '', href="/galleries") Galleries
+            li.nav-item
+              a.nav-link(class=page === 'images' ? 'active font-weight-bold bg-light text-primary rounded' : '', href="/images") Images
+            li.nav-item
+              a.nav-link(class=page === 'gallery_browse' ? 'active font-weight-bold bg-light text-primary rounded' : '', href="/galleries/gallery_browse") Browse Gallery
+            li.nav-item
+              hr
+              a.nav-link(href="/users/user_add") Add User
+            li.nav-item
+              a.nav-link(href="/galleries/gallery_add") Add Gallery
+            li.nav-item
+              a.nav-link(href="/images/image_add") Add Image
+            li.nav-item
+              a.nav-link(href="/images/image_upload") Upload Image
+            li.nav-item
+              hr
+              a.nav-link(href="/api-docs") API Documentation
+            li.nav-item
+              hr
+              if loggedUser
+                a.nav-link(href='/users/user_login') Logged as #{loggedUser}
+                a.nav-link(href="/users/user_logout") Logout
+              else
+                a.nav-link(href='/users/user_login') Login
+
+        main(class="col-md-9 col-lg-10 p-4 bg-white rounded shadow")
+          block content
+
+    footer(class="bg-dark text-white text-center py-4 mt-4")
+      p.mb-1 &copy; 2025 Gallery App. All rights reserved.
+      small.text-muted Built with Bootstrap 4
+
+    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js", integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc5U8lT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3", crossorigin="anonymous")

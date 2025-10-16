@@ -1,0 +1,67 @@
+extends layout
+
+block content
+  h1.text-center.mb-4= title
+
+  if image
+    .card
+      .d-flex(style='gap: 30px; align-items: flex-start;')
+        .image-wrapper(style='flex: 1; max-width: 100%; text-align:center')
+
+          .image-display
+            if image.path
+              img(
+                src=image.path,
+                alt=image.name,
+                style='max-height: 600px; max-width: 100%; width: auto; height: auto; object-fit: contain; display: block; margin: 0 auto;'
+              )
+            else
+              p No image file available.
+
+          .image-descritpion
+            h2.mb-2= image.name
+            p
+              strong Description:
+              |  #{image.description || 'No description provided.'}
+
+            p
+              strong Gallery:
+              |  #{image.gallery ? image.gallery.name : 'No gallery assigned'}
+
+          a.btn.btn-primary(href='/galleries/gallery_browse') Back to gallery
+
+        .comments(style='flex: 1; height: 600px; overflow-y: auto; border-left: 1px solid #ddd; padding-left: 20px;')
+          h3 Comments
+
+          if comments && comments.length
+            each comment in comments
+              .comment.mb-3
+                p.mb-1
+                  strong= comment.author.name
+                  | : #{comment.content}
+                small.text-muted= comment.createdAt.toLocaleString()
+
+                if loggedUser
+                  if loggedUser === 'admin' || loggedUser===comment.author.username
+                    form(method='POST', action=`/comments/comment_delete/${comment._id}`, style='display:inline')
+                      button.btn.btn-sm.btn-danger(type='submit') Delete
+                    a.btn.btn-sm.btn-secondary(href=`/comments/comment_edit/${comment._id}`) Edit
+          else
+            p No comments yet.
+
+          form(method='POST', action=`/comments/comment_add/${image._id}`, style='margin-top: 20px;')
+            input(type='hidden', name='imageId', value=image._id)
+            input(type='hidden', name='galleryId', value=image.gallery._id)
+
+            .form-group.mb-3
+              label(for='content') Comment:
+              textarea#content.form-control(name='content', rows='3', required)
+
+            button.btn.btn-success(type='submit') Add Comment
+  else
+    p Image not found.
+  if messages && messages.length
+    .alert.alert-danger
+      ul
+        each msg in messages
+          li= msg

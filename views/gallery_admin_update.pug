@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1.text-center.mb-4= title
+
+  form(method='POST', action=`/galleries/gallery_update/${gallery._id}`)
+    .form-group
+      label(for='name') Name:
+      input#name.form-control(type='text', name='name', required, value=gallery.name)
+
+    .form-group
+      label(for='description') Description:
+      textarea#description.form-control(name='description', rows='4')= gallery.description
+
+    .form-group
+      label(for='date') Date:
+      - var today = new Date().toISOString().substring(0, 10);
+      - var formDate = (gallery && gallery.date) ? new Date(gallery.date).toISOString().substring(0, 10) : today;
+      input#date.form-control(type='date', name='date', value=formDate)
+
+    .form-group
+      label(for='user') Owner:
+      select#user.form-control(name='user')
+        each user in users
+          if gallery.user
+            option(value=user._id, selected=(user._id.toString() === gallery.user._id.toString())) #{user.name} #{user.surname}
+          else
+            option(value=user._id) #{user.name} #{user.surname}
+
+    button.btn.btn-primary(type='submit') Save Changes
+  if messages && messages.length
+    .alert.alert-danger
+      ul
+        each msg in messages
+          li= msg

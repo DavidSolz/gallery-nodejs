@@ -1,0 +1,46 @@
+extends layout
+
+block content
+  h1.text-center.mb-4= title
+
+  form(method='POST')
+    .form-group
+      label(for='s_gallery') Select gallery
+      select#s_gallery.form-control(name='s_gallery' required)
+        each gallery in galleries
+          option(value=gallery._id selected=(sel_gallery ? sel_gallery._id == gallery._id : false)) #{gallery.name}
+    button.btn.btn-primary(type='submit') Submit
+
+  if images
+
+
+    h5 Description:
+    p= sel_gallery.description
+
+    .images-container(style="display:flex; flex-wrap:wrap; gap:20px; justify-content:flex-start; padding: 10px")
+      each image in images
+        .card(style='width: 220px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 10px; display: flex; flex-direction: column;')
+          img(src=image.path, alt=image.name, style='width: 100%; height: 140px; object-fit: cover; border-radius: 6px;')
+          h5(style='margin: 10px 0 5px 0; text-align: center;') #{image.name}
+          p(style='font-size: 0.9em; text-align: center; color: #555;') Description: #{image.description}
+
+          .actions(style='margin-top: auto; display: flex; flex-direction: column; gap: 6px;')
+            form(action='/images/image_show', method='GET')
+              input(type='hidden', name='image_id', value=image._id)
+              button.btn.btn-sm.btn-info(type='submit' style='width: 100%;') Show
+
+            form(action='/images/image_update', method='GET')
+              input(type='hidden', name='image_id', value=image._id)
+              input(type='hidden', name='gallery_id', value=sel_gallery)
+              button.btn.btn-sm.btn-warning(type='submit' style='width: 100%;') Update
+
+            form(action='/images/image_delete/' + image._id, method='POST')
+              button.btn.btn-sm.btn-danger(type='submit' style='width: 100%;') Delete
+  else
+    p There are no images.
+
+  if messages && messages.length
+    .alert.alert-danger
+      ul
+        each msg in messages
+          li= msg
